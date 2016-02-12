@@ -1,0 +1,185 @@
+/* -*-ePiX-*- */
+#include "epix.h"
+using namespace ePiX;
+
+P sw(44, 1594), ne(904, 58);
+double XSZ(10), YSZ(90); // Cartesian dimensions
+
+// to picture
+P pt(double x, double y)
+{
+  return P(XSZ*(x-sw.x1())/(ne.x1() - sw.x1()),
+	   YSZ*(y-sw.x2())/(ne.x2() - sw.x2()));
+}
+
+void my_spline(const std::vector<P>& data, unsigned int n)
+{
+  spline(data, n);
+  for (std::vector<P>::const_iterator i = data.begin(); i != data.end(); ++i)
+    spot(*i);
+}
+
+int main()
+{
+  picture(P(0,0), P(10,90), "10 x 18cm");
+
+  begin();
+  grid(10, 18);
+
+  //  font_size("scriptsize");
+
+  // axis extensions
+  line(P(10,0), P(10.5,0));
+  line(P(0,90), P(0,92));
+
+  label(P(10.5,0), P(4,0), "$v$", r);
+  label(P(0,92), P(0,4), "$p$", t);
+
+  label(pt(904, 920), P(2,0), "$10^{\\circ}$", r);
+  label(pt(904, 879), P(2,0), "$20^{\\circ}$", r);
+  label(pt(904, 830), P(2,0), "$31^{\\circ}$", r);
+  label(pt(904, 801), P(2,0), "$40^{\\circ}$", r);
+  label(pt(904, 743), P(2,0), "$50^{\\circ}$", r);
+
+  bold();
+
+  axis Ax(P(1,0), P(10,0), 9, P(0,-4), b);
+  Ax.draw_labels();
+
+  axis Ay(P(0,0), P(0,90), 18, P(-4,0), l);
+  Ay.draw_labels();
+
+  std::vector<P> data1, data2, data3, data4, data5;
+  data1.push_back(pt(122, 62));
+  data1.push_back(pt(129, 310));
+  data1.push_back(pt(139, 654));
+  data1.push_back(pt(142, 818)); // endpoint of segment
+  data1.push_back(pt(152, 1166));
+  data1.push_back(pt(154, 1253));
+  data1.push_back(pt(156, 1290));
+  data1.push_back(pt(167, 1335));
+  data1.push_back(pt(180, 1305));
+  data1.push_back(pt(190, 1253));
+  data1.push_back(pt(203, 1166));
+  data1.push_back(pt(216, 1082));
+  data1.push_back(pt(228, 999));
+  data1.push_back(pt(243, 910));
+  data1.push_back(pt(280, 778));
+  data1.push_back(pt(339, 692));
+  data1.push_back(pt(388, 670));
+  data1.push_back(pt(405, 670));
+  data1.push_back(pt(473, 698));
+  data1.push_back(pt(542, 739));
+  data1.push_back(pt(646, 798));
+  data1.push_back(pt(677, 816)); // endpoint of segment
+  data1.push_back(pt(732, 844));
+  data1.push_back(pt(818, 886));
+  data1.push_back(pt(904, 920)); // 10^o
+
+  line(pt(142, 818), pt(677, 816));
+
+  data2.push_back(pt(144, 58));
+  data2.push_back(pt(146, 228));
+  data2.push_back(pt(150, 396));
+  data2.push_back(pt(156, 535)); // \alpha
+  data2.push_back(pt(159, 586)); // A
+  data2.push_back(pt(164, 650));
+  data2.push_back(pt(176, 740));
+  data2.push_back(pt(185, 765));
+  data2.push_back(pt(197, 740));
+  data2.push_back(pt(216, 678));
+  data2.push_back(pt(255, 586)); // B
+  data2.push_back(pt(290, 535)); // \beta
+  data2.push_back(pt(338, 515));
+  data2.push_back(pt(396, 535)); // \gamma
+  data2.push_back(pt(465, 586)); // C
+  data2.push_back(pt(543, 649));
+  data2.push_back(pt(663, 739));
+  data2.push_back(pt(732, 786));
+  data2.push_back(pt(818, 838));
+  data2.push_back(pt(903, 879)); // 20^o
+
+  //  data3.push_back(pt(165, 57));
+  //  data3.push_back(pt(171, 142));
+  spline(pt(165, 57), pt(171, 142), pt(192, 229));
+
+  data3.push_back(pt(192, 229));
+  data3.push_back(pt(216, 271));
+  data3.push_back(pt(249, 283)); // K
+  //  data3.push_back(pt(257, 285));
+  data3.push_back(pt(305, 298));
+  data3.push_back(pt(389, 378));
+  data3.push_back(pt(473, 477));
+  data3.push_back(pt(558, 559));
+  data3.push_back(pt(646, 640));
+  data3.push_back(pt(733, 707));
+  data3.push_back(pt(819, 771));
+  data3.push_back(pt(904, 830)); // 31^o
+
+  data4.push_back(pt(259, 58));
+  data4.push_back(pt(305, 140));
+  data4.push_back(pt(389, 256));
+  data4.push_back(pt(474, 361));
+  data4.push_back(pt(558, 456));
+  data4.push_back(pt(648, 554));
+  data4.push_back(pt(733, 641));
+  data4.push_back(pt(818, 724));
+  data4.push_back(pt(904, 801)); // 40^o
+
+  data5.push_back(pt(355, 59));
+  data5.push_back(pt(388, 119));
+  data5.push_back(pt(475, 256));
+  data5.push_back(pt(558, 368));
+  data5.push_back(pt(648, 474));
+  data5.push_back(pt(734, 573));
+  data5.push_back(pt(820, 662));
+  data5.push_back(pt(903, 743)); // 50^o
+
+
+  P p_alpha(pt(156, 535)), p_beta(pt(290, 535)), p_gamma(pt(396, 535));
+  P p_A(pt(159, 586)), p_B(pt(255, 586)), p_C(pt(465, 586));
+
+  label_pad("-3pt");
+  masklabel(p_A, P( 1,6), "$A$", c);
+  masklabel(p_B, P(-1,6), "$B$", c);
+  masklabel(p_C, P( 1,6), "$C$", c);
+
+  masklabel(p_alpha, P( 1,6), "$\\alpha$", c);
+  masklabel(p_beta,  P(-1,6), "$\\beta$", c);
+  masklabel(p_gamma, P( 1,6), "$\\gamma$", c);
+
+  marker(pt(249, 283), HTICK);
+  label(pt(249, 283), P(0,4), "$K$", t);
+
+  masklabel(P(7.5, 80), P(0,-1), "\\textit{Isotherms of Carbon Dioxide}", t);
+
+  label(P(0, 0), P(0,-12), "\\textit{Cubic centimeters per gram.}", br);
+
+  label_angle(M_PI_2);
+  label(P(0,0), P(-16,2), "\\textit{Atmospheres.}", tl);
+
+  line(p_A, p_C);
+
+  dashed();
+  dash_size(6);
+  line(p_alpha, p_gamma);
+  solid();
+
+  spline(data1, 12);
+  spline(data2, 12);
+  spline(data3, 12);
+  spline(data4, 12);
+  spline(data5, 12);
+
+  plain();
+  /*
+    line(P(2, 55), P(2, 65)); // re-draw overlapped portion of grid
+    line(P(5, 55), P(5, 65));
+  */
+  line(P(5, 80), P(10,80));
+
+  label_angle(0);
+  label(P(0.5*(xmin() + xmax()), ymin()), P(0, -36), "\\textsc{Fig.}~1.", b);
+  pst_format();
+  end();
+}

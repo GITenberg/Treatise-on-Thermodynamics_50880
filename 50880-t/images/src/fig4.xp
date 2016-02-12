@@ -1,0 +1,146 @@
+/* -*-ePiX-*- */
+#include "epix.h"
+using namespace ePiX;
+
+P sw(4, 907), ne(1063, 45);
+double XSZ(1.33), YSZ(1); // Cartesian dimensions
+
+// to picture
+P pt(double x, double y)
+{
+  return P(XSZ*(x-sw.x1())/(ne.x1() - sw.x1()),
+	   YSZ*(y-sw.x2())/(ne.x2() - sw.x2()));
+}
+
+void my_spline(const std::vector<P>& data, unsigned int n)
+{
+  spline(data, n);
+  for (std::vector<P>::const_iterator i = data.begin(); i != data.end(); ++i)
+    spot(*i);
+}
+
+int main()
+{
+  picture(P(0,0), P(1.33,1), "5 x 4.5in");
+
+  begin();
+  degrees();
+
+  // locations
+  P p1(pt(868, 223)), p2(pt(269, 438)), p3(pt(374, 620));
+  P p13(pt(961, 264)), p31(pt(357, 727));
+
+  P p12a(pt(759, 142)), p12b(pt(559, 54)),
+    p12c(pt(339, 157)), p12d(pt(271, 363));
+
+  P p23a(pt(228, 517)), p23b(pt(199, 609)),
+    p23c(pt(297, 736)), p23d(pt(339, 694));
+
+  P crit12(pt(412, 66)), crit23(pt(211, 714));
+
+  // directions
+  P v12(cis(137.5)), v12a(cis(145)), v12b(cis(170)),
+    v12c(cis(240)), v12d(cis(265)), v12e(cis(270)),
+    vcrit12(cis(210));
+
+  P v23(cis(240)), v23a(cis(245)), v23b(cis(260)),
+    v23c(cis(30)), v23d(cis(50)), v23e(cis(60)),
+    vcrit23(cis(-60));
+
+  bold();
+  line(P(0,0), P(xmax(),0));
+  line(P(0,0), P(0,1));
+
+  line(p1, p2);
+  line(p1, p3);
+  line(p2, p3);
+
+  // Sublimationscurve (1)
+  spline(pt(1107, 306), p13, p1);
+
+  // Sublimationscurve (3)
+  spline(pt(304, 855), p31, p3);
+
+  double dt(0.05);
+  // Verdampfungscurve
+  spline(p1, p1+dt*v12, p12a - 0.5*dt*v12a, p12a);
+  spline(p12a, p12a + dt*v12a, p12b - dt*v12b, p12b);
+  spline(p12b, p12b + 1.5*dt*v12b, crit12 - 1.5*dt*vcrit12, crit12);
+  spline(crit12, crit12 + 0.5*dt*vcrit12, p12c - dt*v12c, p12c);
+  spline(p12c, p12c + 1.5*dt*v12c, p12d - 1.5*dt*v12d, p12d);
+  spline(p12d, p12d + 0.5*dt*v12d, p2 - 0.5*dt*v12e, p2);
+
+  // Schmelzcurve
+  dt *= 0.75;
+  spline(p2, p2 + dt*v23, p23a - dt*v23a, p23a);
+  spline(p23a, p23a + dt*v23a, p23b - dt*v23b, p23b);
+  spline(p23b, p23b + dt*v23b, crit23 - dt*vcrit23, crit23);
+  spline(crit23, crit23 + dt*vcrit23, p23c - dt*v23c, p23c);
+  spline(p23c, p23c + dt*v23c, p23d - dt*v23d, p23d);
+  spline(p23d, p23d + dt*v23e, p3);
+
+  dashed();
+  dash_size(6);
+  line(p13, p31);
+  line(p12a, p12d);
+  line(p12b, p12c);
+
+  line(p23a, p23d);
+  line(p23b, p23c);
+
+  // tick markers at critical points
+  label(crit12, "\\rotatebox{120}{\\rule[-2pt]{4pt}{0.5pt}}");
+  label(crit23, "\\rotatebox{30}{\\rule[-2pt]{4pt}{0.5pt}}");
+
+  font_size("footnotesize");
+  label(P(0.5*xmax()), P(0,2),
+    "\\textit{Axis of mean specific volume: $v = \\dfrac{V}{M}$}", t);
+
+  label_angle(90);
+  label(P(0,0.5*ymax()), P(2,0),
+    "\\textit{Axis of mean specific energy: $u = \\dfrac{U}{M}$}", r);
+  label_angle(0);
+
+  //  font_size("scriptsize");
+
+  label(crit12, P(-2, 2), "\\textit{Critical point}", tl);
+  label(crit23, P(-2,-2), "\\textit{Critical point}", bl);
+
+  white();
+  dot_size(10);
+  spot(pt(379, 712));
+  black();
+
+  label(p1, P(-22,-10), "$1$", bl);
+  label(p2, P(6,-4), "$2$", r);
+  label(p3, P(1,4), "$3$", t);
+
+  label(p1, P( 2, 2), "$(1)$", tr);
+  label(p2, P(-2,4), "$(2)$", l);
+  label(p3, P(-14,-30), "$(3)$", b);
+
+  label_angle(70);
+  label(0.5*(p23a + p23b), P(-6,4), "\\textit{Fusion curve}", c);
+
+  label_angle(75);
+  label(p31, P(4, -4), "\\textit{Sublimation curve}", c);
+
+  label_angle(-23);
+  label(0.5*(p12a + p12b), P(6,6), "\\textit{Vaporization curve}", c);
+
+  label_angle(-19);
+  label(p1, P(12,4), "\\textit{Sublimation curve}", br);
+
+  label_angle(0);
+  label(0.4*p13 + 0.6*p31, P(2,-2), "$(31)$", br);
+  label(0.5*(p23a + p23c), "$(23)$");
+  label(0.5*(p12a + p12d), P(-2,12), "$(12)$", tl);
+
+  label(0.2*(p1 + 2*(p2 + p3)), "$(123)$");
+
+  label_angle(0);
+  font_size("normalsize");
+  label(P(0.5*(xmin() + xmax()), ymin()), P(0, -24), "\\textsc{Fig.}~4.", b);
+  pst_format();
+  end();
+}
