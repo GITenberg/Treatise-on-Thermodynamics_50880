@@ -1,0 +1,28 @@
+_repo: Treatise-on-Thermodynamics_50880
+contributor:
+  translator:
+    agent_name: Ogg, Alexander
+    gutenberg_agent_id: '46124'
+    url: http://www.gutenberg.org/2009/agents/46124
+creator:
+  author:
+    agent_name: Planck, Max
+    alias: Planck, Max Karl Ernst Ludwig
+    birthdate: 1858
+    deathdate: 1947
+    gutenberg_agent_id: '35343'
+    url: http://www.gutenberg.org/2009/agents/35343
+description: ''
+gutenberg_bookshelf:
+- Mathematics
+- Physics
+gutenberg_issued: '2016-01-09'
+gutenberg_type: Text
+identifiers:
+  gutenberg: '50880'
+language: en
+publisher: Project Gutenberg
+rights: Public domain in the USA.
+rights_url: http://creativecommons.org/about/pdm
+title: Treatise on Thermodynamics
+url: http://www.gutenberg.org/ebooks/50880
