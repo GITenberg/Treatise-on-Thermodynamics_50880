@@ -1,9 +1,13 @@
 _repo: Treatise-on-Thermodynamics_50880
+_version: 0.1.0
 contributor:
   translator:
     agent_name: Ogg, Alexander
     gutenberg_agent_id: '46124'
     url: http://www.gutenberg.org/2009/agents/46124
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Planck, Max
@@ -13,6 +17,8 @@ creator:
     gutenberg_agent_id: '35343'
     url: http://www.gutenberg.org/2009/agents/35343
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/50880#Treatise-on-Thermodynamics
 gutenberg_bookshelf:
 - Mathematics
 - Physics
